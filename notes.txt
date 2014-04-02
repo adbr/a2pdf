@@ -1,0 +1,15 @@
+2014-04-01 wtorek
+
+Skrypt (filtr) generujący pdf z pliku tekstowego ascii. Dla drukowania z
+vima - akceptuje tekst z kodowaniem utf8. Do generowania PDF używa
+latexa (pdflatex).
+
+--
+Utworzyć plik tymczasowy w latexu - w jakimś katalogu tymczasowym.
+Skompilować go do PDFa
+Zapisać, zwrócić pdfa
+Usunąć pliki tymczasowe
+
+--
+- Obczaić moduł do tworzenia plików tymczasowych
+    lines 472-524/808 64%
