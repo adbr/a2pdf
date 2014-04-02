@@ -1,0 +1,82 @@
+#!/usr/bin/env perl
+# 2014-04-02, Adam Bryt
+# Filtr do zamiany tekstu ascii utf8 na pdf.
+
+use strict;
+use warnings;
+use v5.14;
+
+use File::Temp qw(tempdir tempfile);
+
+my $DOC_PREFIX = <<'EOS';
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% Ustawienie marginesów:
+\usepackage[margin=1in]{geometry}
+
+% Konfiguracja nagłówków i stopek:
+\usepackage{fancyhdr}
+%\lhead{\slshape \leftmark}
+%\chead{}
+%\rhead{}
+%\lfoot{}
+%\cfoot{\thepage}
+%\rfoot{}
+%\renewcommand{\headrulewidth}{0.4pt}
+%\renewcommand{\footrulewidth}{0pt}
+\pagestyle{fancy}
+\setlength{\headheight}{14pt}  % Poprawia warningi.
+
+% Aktywne linki w dokumencie PDF:
+\usepackage{bookmark}
+\usepackage{hyperref}
+\hypersetup{
+  pdftitle={},
+  pdfsubject={},
+  pdfauthor={},
+  hidelinks,
+  pdfdisplaydoctitle=true,
+  colorlinks,
+  allcolors=blue,
+}
+
+\begin{document}
+\begin{verbatim}
+EOS
+
+my $DOC_POSTFIX = <<'EOS';
+\end{verbatim}
+\end{document}
+EOS
+
+$File::Temp::KEEP_ALL = 1;
+my $dir = tempdir(TMPDIR => 1, TEMPLATE => "a2pdf_XXXXXX");
+my ($file, $fname) = tempfile(DIR => $dir, SUFFIX => ".tex");
+
+say "dir: $dir";
+say "file: $file";
+say "fname: $fname";
+
+print $file $DOC_PREFIX;
+print $file $_ while <>;
+print $file $DOC_POSTFIX;
+
+close $file;
+
+use Cwd qw(getcwd);
+my $cwd = getcwd();
+
+chdir $dir
+    or die "Can't chdir to $dir: $!";
+
+my $cmd = "pdflatex $fname";
+system($cmd) == 0
+    or die "Error in command: $cmd: $!: $?";
+
+chdir $cwd
+    or die "Can't chdir to $cwd: $!";
