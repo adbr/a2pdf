@@ -11,5 +11,12 @@ Zapisać, zwrócić pdfa
 Usunąć pliki tymczasowe
 
 --
-- Obczaić moduł do tworzenia plików tymczasowych
++ Obczaić moduł do tworzenia plików tymczasowych
     lines 472-524/808 64%
+
+- Jeśli dokument ascii zawiera \end{verbatim} to nie zostanie to
+  wydrukowane - drukowany tekst nie może zawierać \end{verbatim} i
+  \end{document}
+
+- W przypadku błędu kompilacji wyświetlić ścieżkę do a2pdf.log i nie
+  kasować katalogu
