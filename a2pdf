@@ -152,6 +152,34 @@ sub main {
 
 main();
 
+
+=encoding utf8
+
+=head1 NAME
+
+a2pdf - konwertuje tekst do PDF
+
+=head1 SYNOPSIS
+
+    a2pdf [-o FILE] [FILE ...]
+
+=head1 DESCRIPTION
+
+Program jest filtrem konwertującym tekst (plain text) do formatu PDF.
+
+=head1 EXAMPLES
+
+    $ a2pdf -o x.pdf x.txt
+    $ cat x.txt | a2pdf > x.pdf
+    $ cat x.txt | a2pdf -o x.pdf
+
+=head1 AUTHOR
+
+Adam Bryt <adam.bryt at gmx dot com>, 2014-04-05
+
+=cut
+
+
 __DATA__
 
 ---
