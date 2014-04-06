@@ -157,17 +157,33 @@ main();
 
 =head1 NAME
 
-a2pdf - konwertuje tekst do PDF
+B<a2pdf> - konwertuje tekst do PDF
 
 =head1 SYNOPSIS
 
-    a2pdf [-o FILE] [FILE ...]
+B<a2pdf> [B<-o> I<FILE>] [I<FILE> I<...>]
 
 =head1 DESCRIPTION
 
-Program jest filtrem konwertującym tekst (plain text) do formatu PDF.
+Skrypt B<a2pdf> jest filtrem konwertującym tekst (plain text) do formatu
+PDF.
+
+=head1 OPTIONS
+
+=over
+
+=item B<-o> I<FILE>
+
+Opcja powoduje zapisanie wynikowego PDFu w pliku I<FILE> (output file).
+Jeśli nazwą pliku I<FILE> jest "-", lub nie ma opcji B<-o>, to wynikowy
+PDF jest wysyłany na I<STDOUT>.
+
+=back
 
 =head1 EXAMPLES
+
+Poniższe trzy przykłady są równoważne i powodują konwersję pliku
+tekstowego C<x.txt> do formatu PDF i zapisanie go w pliku C<x.pdf>:
 
     $ a2pdf -o x.pdf x.txt
     $ cat x.txt | a2pdf > x.pdf

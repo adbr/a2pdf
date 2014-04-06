@@ -20,3 +20,6 @@ Usunąć pliki tymczasowe
 
 - W przypadku błędu kompilacji wyświetlić ścieżkę do a2pdf.log i nie
   kasować katalogu
+
+- Zmienić komunikaty w fatal - (dla open)
+- Zmienić wywołanie fatal - format, argumenty (format jak w printf)
