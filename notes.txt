@@ -18,12 +18,13 @@ Todo:
 - Jeśli dokument ascii zawiera \end{verbatim} to nie zostanie to
   wydrukowane - drukowany tekst nie może zawierać \end{verbatim} i
   \end{document}
+- Błąd podczas kompilacji przez pdflatex - zatrzymanie kompilacji
 
 - W przypadku błędu kompilacji wyświetlić ścieżkę do a2pdf.log i nie
   kasować katalogu
 
-- Zmienić komunikaty w fatal - (dla open)
-- Zmienić wywołanie fatal - format, argumenty (format jak w printf)
++ Zmienić komunikaty w fatal - (dla open)
++ Zmienić wywołanie fatal - format, argumenty (format jak w printf)
 
 - Makefile
 

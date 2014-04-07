@@ -33,8 +33,9 @@ sub usage {
 }
 
 sub fatal {
-    my ($m) = @_;
+    my ($fmt, @vals) = @_;
 
+    my $m = sprintf($fmt, @vals);
     $m = "$PROGNAME: $m";
     $m .= "\n" if substr($m, -1) ne "\n";
     print STDERR $m;
@@ -46,7 +47,7 @@ sub parse_options {
     Getopt::Long::Configure("bundling");
 
     GetOptions($Opts, "o=s")
-        or usage();
+        || usage();
 }
 
 sub parse_config {
@@ -55,14 +56,14 @@ sub parse_config {
     try {
         $str = read_file(\*DATA);
     } catch {
-        fatal "can't read config data from __DATA__: $_";
+        fatal("Can't read config data from %s: %s", "__DATA__", $_);
     };
 
     use YAML;
     try {
         our $Conf = Load($str);
     } catch {
-        fatal "can't parse YAML config data: $_";
+        fatal("Can't parse YAML config data: %s", $_);
     };
 }
 
@@ -72,7 +73,7 @@ sub create_tex_document {
     my $fname = $dir . "/" . $BASENAME . ".tex";
 
     open(my $file, ">", $fname)
-        or fatal "can't open file '$fname': $!";
+        || fatal("Can't open file '%s': %s", $fname, $!);
 
     print $file $Conf->{docprefix};
     print $file $_ while <>;
@@ -88,17 +89,18 @@ sub compile_tex_document {
     my $olddir = getcwd();
 
     chdir($dir)
-        or fatal "can't chdir to $dir: $!";
+        || fatal("Can't chdir to %s: %s", $dir, $!);
 
     my $docname = "$BASENAME.tex";
     my $logname = "a2pdf.log";
     my $cmd = "$PDFLATEX $docname > $logname";
 
-    system($cmd) == 0
-        or fatal "error in command: $cmd: $!: $?";
+    if (system($cmd) != 0) {
+        fatal("Error in command: %s: %s: %s", $cmd, $!, $?);
+    }
 
     chdir($olddir)
-        or fatal "can't chdir to $olddir $!";
+        || fatal("Can't chdir to %s: %s", $olddir, $!);
 }
 
 sub dump_pdf {
@@ -106,13 +108,13 @@ sub dump_pdf {
 
     my $pdfname = "$dir/$BASENAME.pdf";
     open(my $pdffh, "<", $pdfname)
-        or fatal "can't open file for reading: $pdfname $!";
+        || fatal("Can't open file for reading: %s: %s", $pdfname, $!);
 
     my $outfh;
     my $outname = $Opts->{o};
     if (defined $outname and $outname ne "-") {
         open($outfh, ">", $outname)
-            or fatal "error in writing file: $outname: $!";
+            || fatal("Can't open file for writing: %s: %s", $outname, $!);
     }
     else {
         $outfh = \*STDOUT;
@@ -124,7 +126,7 @@ sub dump_pdf {
         my $stat = read($pdffh, $buf, $bufsize);
 
         if (! defined($stat)) {
-            fatal "error in reading file: $pdfname: $!";
+            fatal("Error in reading file: %s: %s", $pdfname, $!);
         }
         if ($stat == 0) { last }
 
