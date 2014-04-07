@@ -27,6 +27,7 @@ Todo:
 + Zmienić wywołanie fatal - format, argumenty (format jak w printf)
 
 - Makefile
+- Opcja verbose - info co i gdzie skrypt robi
 
 - Doc: opis pliku konfiguracyjnego
 - Doc: zależności - moduły
@@ -35,7 +36,7 @@ Todo:
 - Nazwe pliku umieszczać w nagłówku
 - Nr strony umieszczać w nagłówku
 
-- Kasowanie katalogu roboczego
++ Kasowanie katalogu roboczego
 - Opcja dla nie kasowania katalogu roboczego
 - Nie kasować katalogu roboczego w przypadku błędu
 
