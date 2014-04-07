@@ -10,9 +10,10 @@ Skompilować go do PDFa
 Zapisać, zwrócić pdfa
 Usunąć pliki tymczasowe
 
---
+Todo:
+-----
+
 + Obczaić moduł do tworzenia plików tymczasowych
-    lines 472-524/808 64%
 
 - Jeśli dokument ascii zawiera \end{verbatim} to nie zostanie to
   wydrukowane - drukowany tekst nie może zawierać \end{verbatim} i
@@ -23,3 +24,20 @@ Usunąć pliki tymczasowe
 
 - Zmienić komunikaty w fatal - (dla open)
 - Zmienić wywołanie fatal - format, argumenty (format jak w printf)
+
+- Makefile
+
+- Doc: opis pliku konfiguracyjnego
+- Doc: zależności - moduły
+- Doc: opis instalacji
+
+- Nazwe pliku umieszczać w nagłówku
+- Nr strony umieszczać w nagłówku
+
+- Kasowanie katalogu roboczego
+- Opcja dla nie kasowania katalogu roboczego
+- Nie kasować katalogu roboczego w przypadku błędu
+
+- Sekcja DIAGNOSTICS - komunikaty zgłaszane przez skrypt
+
+- Obsługa pliku konfiguracyjnego ~/.a2pdfrc
