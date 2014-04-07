@@ -12,6 +12,7 @@ use File::Basename qw(basename);
 
 our $PDFLATEX = "pdflatex";
 our $BASENAME = "document";
+our $DIRTEMPLATE = "a2pdf_XXXXXX";
 our $PROGNAME = basename($0);
 our $Opts = {};
 our $Conf = {};
@@ -142,9 +143,11 @@ sub main {
     parse_options();
     parse_config();
 
-    $File::Temp::KEEP_ALL = 1;
-
-    my $dir = tempdir(TMPDIR => 1, TEMPLATE => "a2pdf_XXXXXX");
+    my $dir = tempdir(
+        CLEANUP  => 1,
+        TMPDIR   => 1,
+        TEMPLATE => $DIRTEMPLATE
+    );
     say STDERR "dir: $dir";
 
     create_tex_document($dir);
