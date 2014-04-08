@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # 2014-04-02, Adam Bryt
-# Filtr do zamiany tekstu ascii utf8 na pdf.
+# Filtr konwertujący plain text UTF-8 na PDF.
 
 use strict;
 use warnings;
@@ -10,16 +10,19 @@ use File::Temp qw(tempdir);
 use Try::Tiny;
 use File::Basename qw(basename);
 
-our $PDFLATEX = "pdflatex";
-our $BASENAME = "document";
-our $DIRTEMPLATE = "a2pdf_XXXXXX";
-our $PROGNAME = basename($0);
-our $Opts = {};
-our $Conf = {};
+my $PDFLATEX    = "pdflatex";      # Polecenie tłumaczące latex do pdf
+my $TEXFNAME    = "document.tex";  # Nazwa tymczasowego pliku LaTeX
+my $PDFFNAME    = "document.pdf";  # Nazwa tymczasowego pliku PDF
+my $LOGFNAME    = "a2pdf.log";     # Log z kompilacji przez pdflatex
+my $DIRTEMPLATE = "a2pdf_XXXXXX";  # Template nazwy katalogu tymczasowego
+my $PROGNAME    = basename($0);
 
-our $USAGE = <<EOS;
+my $USAGE = <<EOS;
 usage: $PROGNAME [-o FILE] [FILE ...]
 EOS
+
+my $Opts = {};
+my $Conf = {};
 
 sub init_signals {
     $SIG{__WARN__} = sub {
@@ -62,7 +65,7 @@ sub parse_config {
 
     use YAML;
     try {
-        our $Conf = Load($str);
+        $Conf = Load($str);
     } catch {
         fatal("Can't parse YAML config data: %s", $_);
     };
@@ -71,16 +74,16 @@ sub parse_config {
 sub create_tex_document {
     my ($dir) = @_;
 
-    my $fname = $dir . "/" . $BASENAME . ".tex";
+    my $fname = "$dir/$TEXFNAME";
 
-    open(my $file, ">", $fname)
+    open(my $fh, ">", $fname)
         || fatal("Can't open file '%s': %s", $fname, $!);
 
-    print $file $Conf->{docprefix};
-    print $file $_ while <>;
-    print $file $Conf->{docsuffix};
+    print $fh $Conf->{docprefix};
+    print $fh $_ while <>;
+    print $fh $Conf->{docsuffix};
 
-    close $file;
+    close $fh;
 }
 
 sub compile_tex_document {
@@ -92,9 +95,7 @@ sub compile_tex_document {
     chdir($dir)
         || fatal("Can't chdir to %s: %s", $dir, $!);
 
-    my $docname = "$BASENAME.tex";
-    my $logname = "a2pdf.log";
-    my $cmd = "$PDFLATEX $docname > $logname";
+    my $cmd = "$PDFLATEX $TEXFNAME > $LOGFNAME";
 
     if (system($cmd) != 0) {
         fatal("Error in command: %s: %s: %s", $cmd, $!, $?);
@@ -107,7 +108,7 @@ sub compile_tex_document {
 sub dump_pdf {
     my ($dir) = @_;
 
-    my $pdfname = "$dir/$BASENAME.pdf";
+    my $pdfname = "$dir/$PDFFNAME";
     open(my $pdffh, "<", $pdfname)
         || fatal("Can't open file for reading: %s: %s", $pdfname, $!);
 
