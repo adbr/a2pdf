@@ -23,6 +23,7 @@ Todo:
 - W przypadku błędu kompilacji wyświetlić ścieżkę do a2pdf.log i nie
   kasować katalogu
 
++ Symulacja błędów i sprawdzenie komunikatów
 + Zmienić komunikaty w fatal - (dla open)
 + Zmienić wywołanie fatal - format, argumenty (format jak w printf)
 

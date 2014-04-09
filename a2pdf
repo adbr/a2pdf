@@ -77,7 +77,7 @@ sub create_tex_document {
     my $fname = "$dir/$TEXFNAME";
 
     open(my $fh, ">", $fname)
-        || fatal("Can't open file '%s': %s", $fname, $!);
+        || fatal("Can't open file for writing: '%s': %s", $fname, $!);
 
     print $fh $Conf->{docprefix};
     print $fh $_ while <>;
@@ -110,13 +110,13 @@ sub dump_pdf {
 
     my $pdfname = "$dir/$PDFFNAME";
     open(my $pdffh, "<", $pdfname)
-        || fatal("Can't open file for reading: %s: %s", $pdfname, $!);
+        || fatal("Can't open file for reading: '%s': %s", $pdfname, $!);
 
     my $outfh;
     my $outname = $Opts->{o};
     if (defined $outname and $outname ne "-") {
         open($outfh, ">", $outname)
-            || fatal("Can't open file for writing: %s: %s", $outname, $!);
+            || fatal("Can't open file for writing: '%s': %s", $outname, $!);
     }
     else {
         $outfh = \*STDOUT;
@@ -128,7 +128,7 @@ sub dump_pdf {
         my $stat = read($pdffh, $buf, $bufsize);
 
         if (! defined($stat)) {
-            fatal("Error in reading file: %s: %s", $pdfname, $!);
+            fatal("Error in reading file: '%s': %s", $pdfname, $!);
         }
         if ($stat == 0) { last }
 
