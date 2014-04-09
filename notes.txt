@@ -38,7 +38,7 @@ Todo:
 - Nr strony umieszczać w nagłówku
 
 + Kasowanie katalogu roboczego
-- Opcja dla nie kasowania katalogu roboczego
++ Opcja dla nie kasowania katalogu roboczego (-d)
 - Nie kasować katalogu roboczego w przypadku błędu
 
 - Sekcja DIAGNOSTICS - komunikaty zgłaszane przez skrypt

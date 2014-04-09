@@ -18,7 +18,7 @@ my $DIRTEMPLATE = "a2pdf_XXXXXX";  # Template nazwy katalogu tymczasowego
 my $PROGNAME    = basename($0);
 
 my $USAGE = <<EOS;
-usage: $PROGNAME [-o FILE] [FILE ...]
+usage: $PROGNAME [-d] [-o FILE] [FILE ...]
 EOS
 
 my $Opts = {};
@@ -50,7 +50,7 @@ sub parse_options {
     use Getopt::Long;
     Getopt::Long::Configure("bundling");
 
-    GetOptions($Opts, "o=s")
+    GetOptions($Opts, "d", "o=s")
         || usage();
 }
 
@@ -69,6 +69,17 @@ sub parse_config {
     } catch {
         fatal("Can't parse YAML config data: %s", $_);
     };
+}
+
+sub make_tempdir {
+    my $dont_clean = $Opts->{d};
+    my $dir = tempdir(
+        CLEANUP  => ! $dont_clean,
+        TMPDIR   => 1,
+        TEMPLATE => $DIRTEMPLATE
+    );
+    say STDERR "$PROGNAME: tempdir: $dir" if $dont_clean;
+    return $dir;
 }
 
 sub create_tex_document {
@@ -144,13 +155,7 @@ sub main {
     parse_options();
     parse_config();
 
-    my $dir = tempdir(
-        CLEANUP  => 1,
-        TMPDIR   => 1,
-        TEMPLATE => $DIRTEMPLATE
-    );
-    say STDERR "dir: $dir";
-
+    my $dir = make_tempdir();
     create_tex_document($dir);
     compile_tex_document($dir);
     dump_pdf($dir);
@@ -167,7 +172,7 @@ B<a2pdf> - konwertuje tekst do PDF
 
 =head1 SYNOPSIS
 
-B<a2pdf> [B<-o> I<FILE>] [I<FILE> I<...>]
+B<a2pdf> [B<-d>] [B<-o> I<FILE>] [I<FILE> I<...>]
 
 =head1 DESCRIPTION
 
@@ -183,6 +188,11 @@ wynikowy PDF.
 =head1 OPTIONS
 
 =over
+
+=item B<-d>
+
+Nie kasuje katalogu tymczasowego z plikami roboczymi. Dodatkowo
+wyświetla na STDERR nazwę katalogu tymczasowego.
 
 =item B<-o> I<FILE>
 
