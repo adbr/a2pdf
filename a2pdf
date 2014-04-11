@@ -10,10 +10,10 @@ use File::Temp qw(tempdir);
 use Try::Tiny;
 use File::Basename qw(basename);
 
-my $PDFLATEX    = "pdflatex";      # Polecenie tłumaczące latex do pdf
+my $PDFLATEX    = "pdflatex -halt-on-error";  # Kompilator latex -> pdf
 my $TEXFNAME    = "document.tex";  # Nazwa tymczasowego pliku LaTeX
 my $PDFFNAME    = "document.pdf";  # Nazwa tymczasowego pliku PDF
-my $LOGFNAME    = "a2pdf.log";     # Log z kompilacji przez pdflatex
+my $LOGFNAME    = "pdflatex.log";  # Log z kompilacji przez pdflatex
 my $DIRTEMPLATE = "a2pdf_XXXXXX";  # Template nazwy katalogu tymczasowego
 my $PROGNAME    = basename($0);
 
@@ -44,6 +44,13 @@ sub fatal {
     $m .= "\n" if substr($m, -1) ne "\n";
     print STDERR $m;
     exit 1;
+}
+
+sub keep_tempdir {
+    my ($dir) = @_;
+
+    say STDERR "$PROGNAME: working files are in tempdir: $dir";
+    $File::Temp::KEEP_ALL = 1;
 }
 
 sub parse_options {
@@ -88,7 +95,10 @@ sub create_tex_document {
     my $fname = "$dir/$TEXFNAME";
 
     open(my $fh, ">", $fname)
-        || fatal("Can't open file for writing: '%s': %s", $fname, $!);
+        || do {
+            keep_tempdir($dir);
+            fatal("Can't open file for writing: '%s': %s", $fname, $!);
+        };
 
     print $fh $Conf->{docprefix};
     print $fh $_ while <>;
@@ -104,16 +114,23 @@ sub compile_tex_document {
     my $olddir = getcwd();
 
     chdir($dir)
-        || fatal("Can't chdir to %s: %s", $dir, $!);
+        || do {
+            keep_tempdir($dir);
+            fatal("Can't chdir to %s: %s", $dir, $!);
+        };
 
     my $cmd = "$PDFLATEX $TEXFNAME > $LOGFNAME";
 
     if (system($cmd) != 0) {
+        keep_tempdir($dir);
         fatal("Error in command: %s: %s: %s", $cmd, $!, $?);
     }
 
     chdir($olddir)
-        || fatal("Can't chdir to %s: %s", $olddir, $!);
+        || do {
+            keep_tempdir($dir);
+            fatal("Can't chdir to %s: %s", $olddir, $!);
+        };
 }
 
 sub dump_pdf {
@@ -121,13 +138,19 @@ sub dump_pdf {
 
     my $pdfname = "$dir/$PDFFNAME";
     open(my $pdffh, "<", $pdfname)
-        || fatal("Can't open file for reading: '%s': %s", $pdfname, $!);
+        || do {
+            keep_tempdir($dir);
+            fatal("Can't open file for reading: '%s': %s", $pdfname, $!);
+        };
 
     my $outfh;
     my $outname = $Opts->{o};
     if (defined $outname and $outname ne "-") {
         open($outfh, ">", $outname)
-            || fatal("Can't open file for writing: '%s': %s", $outname, $!);
+            || do {
+                keep_tempdir($dir);
+                fatal("Can't open file for writing: '%s': %s", $outname, $!);
+            };
     }
     else {
         $outfh = \*STDOUT;
@@ -136,12 +159,13 @@ sub dump_pdf {
     my $bufsize = 4096;
     my $buf;
     while (1) {
-        my $stat = read($pdffh, $buf, $bufsize);
+        my $n = read($pdffh, $buf, $bufsize);
 
-        if (! defined($stat)) {
+        if (! defined($n)) {
+            keep_tempdir($dir);
             fatal("Error in reading file: '%s': %s", $pdfname, $!);
         }
-        if ($stat == 0) { last }
+        if ($n == 0) { last }
 
         print $outfh $buf;
     }
@@ -156,6 +180,7 @@ sub main {
     parse_config();
 
     my $dir = make_tempdir();
+
     create_tex_document($dir);
     compile_tex_document($dir);
     dump_pdf($dir);
@@ -201,6 +226,12 @@ Jeśli nazwą pliku I<FILE> jest "-", lub nie ma opcji B<-o>, to wynikowy
 PDF jest wysyłany na I<STDOUT>.
 
 =back
+
+=head1 ERRORS
+
+Zwraca status 0 w przypadku powodzenia, a >0 gdy wystąpił błąd. Katalog
+tymczasowy nie jest usuwany gdy wystąpił błąd podczas tworzenia
+dokumentu PDF.
 
 =head1 EXAMPLES
 

@@ -39,7 +39,7 @@ Todo:
 
 + Kasowanie katalogu roboczego
 + Opcja dla nie kasowania katalogu roboczego (-d)
-- Nie kasować katalogu roboczego w przypadku błędu
+. Nie kasować katalogu roboczego w przypadku błędu
 
 - Sekcja DIAGNOSTICS - komunikaty zgłaszane przez skrypt
 
