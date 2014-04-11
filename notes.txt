@@ -18,9 +18,9 @@ Todo:
 - Jeśli dokument ascii zawiera \end{verbatim} to nie zostanie to
   wydrukowane - drukowany tekst nie może zawierać \end{verbatim} i
   \end{document}
-- Błąd podczas kompilacji przez pdflatex - zatrzymanie kompilacji
++ Błąd podczas kompilacji przez pdflatex -> zawieszenie kompilacji
 
-- W przypadku błędu kompilacji wyświetlić ścieżkę do a2pdf.log i nie
++ W przypadku błędu kompilacji wyświetlić ścieżkę do a2pdf.log i nie
   kasować katalogu
 
 + Symulacja błędów i sprawdzenie komunikatów
@@ -39,7 +39,7 @@ Todo:
 
 + Kasowanie katalogu roboczego
 + Opcja dla nie kasowania katalogu roboczego (-d)
-. Nie kasować katalogu roboczego w przypadku błędu
++ Nie kasować katalogu roboczego w przypadku błędu
 
 - Sekcja DIAGNOSTICS - komunikaty zgłaszane przez skrypt
 
