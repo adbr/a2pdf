@@ -121,7 +121,8 @@ sub compile_tex_document {
 
     my $cmd = "$PDFLATEX $TEXFNAME > $LOGFNAME";
 
-    if (system($cmd) != 0) {
+    # Kompilacja dwa razy - dla pageref
+    if ( (system($cmd) != 0) or (system($cmd) != 0) ) {
         keep_tempdir($dir);
         fatal("Error in command: %s: %s: %s", $cmd, $!, $?);
     }
@@ -265,11 +266,12 @@ docprefix: |
 
     % Konfiguracja nagłówków i stopek:
     \usepackage{fancyhdr}
+    \usepackage{lastpage}
     %\lhead{\slshape \leftmark}
     %\chead{}
-    %\rhead{}
+    \rhead{\thepage{} / \pageref{LastPage}}
     %\lfoot{}
-    %\cfoot{\thepage}
+    \cfoot{}
     %\rfoot{}
     %\renewcommand{\headrulewidth}{0.4pt}
     %\renewcommand{\footrulewidth}{0pt}

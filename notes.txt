@@ -35,7 +35,7 @@ Todo:
 - Doc: opis instalacji
 
 - Nazwe pliku umieszczać w nagłówku
-- Nr strony umieszczać w nagłówku
++ Nr strony umieszczać w nagłówku
 
 + Kasowanie katalogu roboczego
 + Opcja dla nie kasowania katalogu roboczego (-d)
