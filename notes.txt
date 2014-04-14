@@ -27,7 +27,7 @@ Todo:
 + Zmienić komunikaty w fatal - (dla open)
 + Zmienić wywołanie fatal - format, argumenty (format jak w printf)
 
-- Makefile
+- Makefile (or install script)
 + Opcja verbose (v) - info co i gdzie skrypt robi
 
 - Doc: opis pliku konfiguracyjnego
@@ -41,6 +41,6 @@ Todo:
 + Opcja dla nie kasowania katalogu roboczego (-d)
 + Nie kasować katalogu roboczego w przypadku błędu
 
-- Sekcja DIAGNOSTICS - komunikaty zgłaszane przez skrypt
+- Sekcja DIAGNOSTICS - komunikaty zgłaszane przez skrypt (?)
 
 - Obsługa pliku konfiguracyjnego ~/.a2pdfrc

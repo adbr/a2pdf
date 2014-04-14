@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # 2014-04-02, Adam Bryt
-# Filtr konwertujący plain text UTF-8 na PDF.
+# Filtr konwertujący plain text UTF-8 do PDF.
 
 use strict;
 use warnings;
