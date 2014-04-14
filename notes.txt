@@ -28,7 +28,7 @@ Todo:
 + Zmienić wywołanie fatal - format, argumenty (format jak w printf)
 
 - Makefile
-- Opcja verbose - info co i gdzie skrypt robi
++ Opcja verbose (v) - info co i gdzie skrypt robi
 
 - Doc: opis pliku konfiguracyjnego
 - Doc: zależności - moduły

@@ -18,11 +18,12 @@ my $DIRTEMPLATE = "a2pdf_XXXXXX";  # Template nazwy katalogu tymczasowego
 my $PROGNAME    = basename($0);
 
 my $USAGE = <<EOS;
-usage: $PROGNAME [-d] [-o FILE] [FILE ...]
+usage: $PROGNAME [-dv] [-o FILE] [FILE ...]
 EOS
 
 my $Opts = {};
 my $Conf = {};
+my $Verbose = 0;
 
 sub init_signals {
     $SIG{__WARN__} = sub {
@@ -46,6 +47,11 @@ sub fatal {
     exit 1;
 }
 
+sub info {
+    my ($m) = @_;
+    say STDERR $m if $Verbose;
+}
+
 sub keep_tempdir {
     my ($dir) = @_;
 
@@ -57,11 +63,15 @@ sub parse_options {
     use Getopt::Long;
     Getopt::Long::Configure("bundling");
 
-    GetOptions($Opts, "d", "o=s")
+    GetOptions($Opts, "d", "v", "o=s")
         || usage();
+
+    if ($Opts->{v}) { $Verbose = 1 }
 }
 
 sub parse_config {
+    info("Parsing config data");
+
     use File::Slurp;
     my $str;
     try {
@@ -79,23 +89,32 @@ sub parse_config {
 }
 
 sub prepare_docprefix {
+    info("Preparing latex document");
     my $filename = @ARGV ? join(", ", @ARGV) : "STDIN";
     $Conf->{docprefix} =~ s/\@\@LHEAD\@\@/$filename/;
 }
 
 sub make_tempdir {
+    info("Creating temporary working directory");
+
     my $dont_clean = $Opts->{d};
     my $dir = tempdir(
         CLEANUP  => ! $dont_clean,
         TMPDIR   => 1,
         TEMPLATE => $DIRTEMPLATE
     );
+
     say STDERR "$PROGNAME: tempdir: $dir" if $dont_clean;
+    info("\ttempdir: $dir");
+
     return $dir;
 }
 
 sub create_tex_document {
     my ($dir) = @_;
+
+    info("Creating latex document");
+    info("\tdocument: $dir/$TEXFNAME");
 
     my $fname = "$dir/$TEXFNAME";
 
@@ -114,6 +133,9 @@ sub create_tex_document {
 
 sub compile_tex_document {
     my ($dir) = @_;
+
+    info("Compiling latex document");
+    info("\tlog: $dir/$LOGFNAME");
 
     use Cwd qw(getcwd);
     my $olddir = getcwd();
@@ -141,6 +163,8 @@ sub compile_tex_document {
 
 sub dump_pdf {
     my ($dir) = @_;
+
+    info("Copying PDF document");
 
     my $pdfname = "$dir/$PDFFNAME";
     open(my $pdffh, "<", $pdfname)
@@ -204,7 +228,7 @@ B<a2pdf> - konwertuje tekst do PDF
 
 =head1 SYNOPSIS
 
-B<a2pdf> [B<-d>] [B<-o> I<FILE>] [I<FILE> I<...>]
+B<a2pdf> [B<-dv>] [B<-o> I<FILE>] [I<FILE> I<...>]
 
 =head1 DESCRIPTION
 
@@ -225,6 +249,10 @@ wynikowy PDF.
 
 Nie kasuje katalogu tymczasowego z plikami roboczymi. Dodatkowo
 wyświetla na STDERR nazwę katalogu tymczasowego.
+
+=item B<-v>
+
+Wyświetla informacje o tym co robi (verbose).
 
 =item B<-o> I<FILE>
 
