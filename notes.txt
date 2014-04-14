@@ -27,7 +27,7 @@ Todo:
 + Zmienić komunikaty w fatal - (dla open)
 + Zmienić wywołanie fatal - format, argumenty (format jak w printf)
 
-- Makefile (or install script)
++ Makefile (or install script)
 + Opcja verbose (v) - info co i gdzie skrypt robi
 
 - Doc: opis pliku konfiguracyjnego
