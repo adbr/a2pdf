@@ -191,42 +191,18 @@ sub dump_pdf {
 
     info("Copying PDF document");
 
-    my $pdfname = "$dir/$PDFFNAME";
-    open(my $pdffh, "<", $pdfname)
-        || do {
-            keep_tempdir($dir);
-            fatal("Can't open file for reading: '%s': %s", $pdfname, $!);
-        };
+    use File::Copy;
+    my $pdf = "$dir/$PDFFNAME";
+    my $out = $Opts->{o};
 
-    my $outfh;
-    my $outname = $Opts->{o};
-    if (defined $outname and $outname ne "-") {
-        open($outfh, ">", $outname)
-            || do {
-                keep_tempdir($dir);
-                fatal("Can't open file for writing: '%s': %s", $outname, $!);
-            };
+    if ( defined($out) and ($out ne "-") ) {
+        copy($pdf, $out)
+            || fatal("Can't copy '%s' to '%s': %s", $pdf, $out, $!);
     }
     else {
-        $outfh = \*STDOUT;
+        copy($pdf, \*STDOUT)
+            || fatal("Can't copy '%s' to '%s': %s", $pdf, "STDOUT", $!);
     }
-
-    my $bufsize = 4096;
-    my $buf;
-    while (1) {
-        my $n = read($pdffh, $buf, $bufsize);
-
-        if (! defined($n)) {
-            keep_tempdir($dir);
-            fatal("Error in reading file: '%s': %s", $pdfname, $!);
-        }
-        if ($n == 0) { last }
-
-        print $outfh $buf;
-    }
-    
-    close $outfh if $outfh != \*STDOUT;
-    close $pdffh;
 }
 
 sub main {
