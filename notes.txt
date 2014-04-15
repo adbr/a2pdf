@@ -46,5 +46,4 @@ Todo:
 + Obsługa pliku konfiguracyjnego ~/.a2pdfrc
     + refaktoring parse_config
     + testy
-
-- doc: opis pliku konfiguracyjnego i konfiguracji
++ Dodanie opcji -c file (specyfikacja pliku konfiguracyjnego)

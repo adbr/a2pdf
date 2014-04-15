@@ -19,7 +19,7 @@ my $CONF_FILE   = "$ENV{HOME}/.a2pdf.conf";
 my $PROGNAME    = basename($0);
 
 my $USAGE = <<EOS;
-usage: $PROGNAME [-dv] [-o FILE] [FILE ...]
+usage: $PROGNAME [-dv] [-c FILE] [-o FILE] [FILE ...]
 EOS
 
 my $Opts = {};
@@ -64,7 +64,7 @@ sub parse_options {
     use Getopt::Long;
     Getopt::Long::Configure("bundling");
 
-    GetOptions($Opts, "d", "v", "o=s")
+    GetOptions($Opts, "d", "v", "c=s", "o=s")
         || usage();
 
     if ($Opts->{v}) { $Verbose = 1 }
@@ -80,7 +80,7 @@ sub read_config {
     try {
         $str = read_file($file);
     } catch {
-        fatal("Can't read config data from: %s: %s", $file, $_);
+        fatal("Can't read config data from: '%s': %s", $file, $_);
     };
 
     use YAML;
@@ -88,7 +88,7 @@ sub read_config {
     try {
         $cnf = Load($str);
     } catch {
-        fatal("Can't parse config data from: %s: %s", $file, $_);
+        fatal("Can't parse config data from: '%s': %s", $file, $_);
     };
 
     return $cnf;
@@ -100,9 +100,15 @@ sub parse_config {
     my $cnf = read_config(\*DATA);
     %$Conf = ( %$Conf, %$cnf );
 
-    # Konfiguracja z pliku konfiguracyjnego
+    # Domyślny plik konfiguracyjny
     if (-e $CONF_FILE) {
         $cnf = read_config($CONF_FILE);
+        %$Conf = ( %$Conf, %$cnf );
+    }
+
+    # Plik konfiguracyjny z opcji
+    if (defined $Opts->{c}) {
+        $cnf = read_config($Opts->{c});
         %$Conf = ( %$Conf, %$cnf );
     }
 }
@@ -247,7 +253,7 @@ B<a2pdf> - konwertuje tekst do PDF
 
 =head1 SYNOPSIS
 
-B<a2pdf> [B<-dv>] [B<-o> I<FILE>] [I<FILE> I<...>]
+B<a2pdf> [B<-dv>] [B<-c> I<FILE>] [B<-o> I<FILE>] [I<FILE> I<...>]
 
 =head1 DESCRIPTION
 
@@ -272,6 +278,10 @@ wyświetla na STDERR nazwę katalogu tymczasowego.
 =item B<-v>
 
 Wyświetla informacje o tym co robi (verbose).
+
+=item B<-c> I<FILE>
+
+Specyfikuje plik konfiguracyjny. Domyślnie C<~/.a2pdf.conf>.
 
 =item B<-o> I<FILE>
 
