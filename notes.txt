@@ -41,6 +41,10 @@ Todo:
 + Opcja dla nie kasowania katalogu roboczego (-d)
 + Nie kasować katalogu roboczego w przypadku błędu
 
-- Sekcja DIAGNOSTICS - komunikaty zgłaszane przez skrypt (?)
+\ Sekcja DIAGNOSTICS - komunikaty zgłaszane przez skrypt (?)
 
-- Obsługa pliku konfiguracyjnego ~/.a2pdfrc
++ Obsługa pliku konfiguracyjnego ~/.a2pdfrc
+    + refaktoring parse_config
+    + testy
+
+- doc: opis pliku konfiguracyjnego i konfiguracji

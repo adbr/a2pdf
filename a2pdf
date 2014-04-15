@@ -15,6 +15,7 @@ my $TEXFNAME    = "document.tex";  # Nazwa tymczasowego pliku LaTeX
 my $PDFFNAME    = "document.pdf";  # Nazwa tymczasowego pliku PDF
 my $LOGFNAME    = "pdflatex.log";  # Log z kompilacji przez pdflatex
 my $DIRTEMPLATE = "a2pdf_XXXXXX";  # Template nazwy katalogu tymczasowego
+my $CONF_FILE   = "$ENV{HOME}/.a2pdf.conf";
 my $PROGNAME    = basename($0);
 
 my $USAGE = <<EOS;
@@ -69,23 +70,41 @@ sub parse_options {
     if ($Opts->{v}) { $Verbose = 1 }
 }
 
-sub parse_config {
-    info("Parsing config data");
+sub read_config {
+    my ($file) = @_;
+
+    info("Parsing config file: '$file'");
 
     use File::Slurp;
     my $str;
     try {
-        $str = read_file(\*DATA);
+        $str = read_file($file);
     } catch {
-        fatal("Can't read config data from %s: %s", "__DATA__", $_);
+        fatal("Can't read config data from: %s: %s", $file, $_);
     };
 
     use YAML;
+    my $cnf;
     try {
-        $Conf = Load($str);
+        $cnf = Load($str);
     } catch {
-        fatal("Can't parse YAML config data: %s", $_);
+        fatal("Can't parse config data from: %s: %s", $file, $_);
     };
+
+    return $cnf;
+}
+
+sub parse_config {
+
+    # Konfiguracja wbudowana
+    my $cnf = read_config(\*DATA);
+    %$Conf = ( %$Conf, %$cnf );
+
+    # Konfiguracja z pliku konfiguracyjnego
+    if (-e $CONF_FILE) {
+        $cnf = read_config($CONF_FILE);
+        %$Conf = ( %$Conf, %$cnf );
+    }
 }
 
 sub prepare_docprefix {
