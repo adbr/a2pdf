@@ -14,35 +14,26 @@ Todo:
 -----
 
 + Obczaić moduł do tworzenia plików tymczasowych
-
 - Jeśli dokument ascii zawiera \end{verbatim} to nie zostanie to
   wydrukowane - drukowany tekst nie może zawierać \end{verbatim} i
   \end{document}
 + Błąd podczas kompilacji przez pdflatex -> zawieszenie kompilacji
-
 + W przypadku błędu kompilacji wyświetlić ścieżkę do a2pdf.log i nie
   kasować katalogu
-
 + Symulacja błędów i sprawdzenie komunikatów
 + Zmienić komunikaty w fatal - (dla open)
 + Zmienić wywołanie fatal - format, argumenty (format jak w printf)
-
 + Makefile (or install script)
 + Opcja verbose (v) - info co i gdzie skrypt robi
-
 - Doc: opis pliku konfiguracyjnego
 - Doc: zależności - moduły
 - Doc: opis instalacji
-
 + Nazwe pliku umieszczać w nagłówku
 + Nr strony umieszczać w nagłówku
-
 + Kasowanie katalogu roboczego
 + Opcja dla nie kasowania katalogu roboczego (-d)
 + Nie kasować katalogu roboczego w przypadku błędu
-
 \ Sekcja DIAGNOSTICS - komunikaty zgłaszane przez skrypt (?)
-
 + Obsługa pliku konfiguracyjnego ~/.a2pdfrc
     + refaktoring parse_config
     + testy

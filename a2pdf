@@ -282,6 +282,38 @@ tekstowego C<x.txt> do formatu PDF i zapisanie go w pliku C<x.pdf>:
     $ cat x.txt | a2pdf > x.pdf
     $ cat x.txt | a2pdf -o x.pdf
 
+=head1 FILES
+
+=over
+
+=item F<~/.a2pdf.conf>
+
+Domyślny plik konfiguracyjny. Jeśli nie istnieje to używana jest
+konfiguracja wbudowana w skrypcie w sekcji __DATA__.
+
+=item F</tmp/a2pdf_XXXXXX>
+
+Katalog tymczasowy tworzony dla kompilacji LaTeXa do PDFu. Zawiera
+tymczasowe pliki:
+
+=over
+
+=item F<document.tex>
+
+Plik w LaTeXu generowany przez skrypt.
+
+=item F<pdflatex.log>
+
+Log z kompilacji przez C<pdflatex> pliku C<document.tex>.
+
+=item F<document.pdf>
+
+Wynikowy plik PDF.
+
+=back
+
+=back
+
 =head1 AUTHOR
 
 Adam Bryt <adam.bryt at gmx dot com>, 2014-04-05
