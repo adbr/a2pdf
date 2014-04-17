@@ -19,7 +19,7 @@ my $CONF_FILE   = "$ENV{HOME}/.a2pdf.conf";
 my $PROGNAME    = basename($0);
 
 my $USAGE = <<EOS;
-usage: $PROGNAME [-dv] [-c FILE] [-o FILE] [FILE ...]
+usage: $PROGNAME [-dv] [-c FILE] [-o FILE] [-t TITLE] [FILE ...]
 EOS
 
 my $Opts = {};
@@ -64,7 +64,7 @@ sub parse_options {
     use Getopt::Long;
     Getopt::Long::Configure("bundling");
 
-    GetOptions($Opts, "d", "v", "c=s", "o=s")
+    GetOptions($Opts, "d", "v", "c=s", "o=s", "t=s")
         || usage();
 
     if ($Opts->{v}) { $Verbose = 1 }
@@ -115,7 +115,21 @@ sub parse_config {
 
 sub prepare_docprefix {
     info("Preparing latex document");
-    my $filename = @ARGV ? join(", ", @ARGV) : "STDIN";
+
+    # Ustawienie nazwy dokumentu w nagłówku strony
+
+    my $filename;
+
+    if (defined $Opts->{t}) {
+        $filename = $Opts->{t};
+    }
+    elsif (@ARGV) {
+        $filename = join(", ", @ARGV);
+    }
+    else {
+        $filename = "STDIN";
+    }
+
     $Conf->{docprefix} =~ s/\@\@LHEAD\@\@/$filename/;
 }
 
@@ -229,7 +243,7 @@ B<a2pdf> - konwertuje tekst do PDF
 
 =head1 SYNOPSIS
 
-B<a2pdf> [B<-dv>] [B<-c> I<FILE>] [B<-o> I<FILE>] [I<FILE> I<...>]
+B<a2pdf> [B<-dv>] [B<-c> I<FILE>] [B<-o> I<FILE>] [B<-t> I<TITLE>] [I<FILE> I<...>]
 
 =head1 DESCRIPTION
 
@@ -264,6 +278,11 @@ Specyfikuje plik konfiguracyjny. Domyślnie C<~/.a2pdf.conf>.
 Opcja powoduje zapisanie wynikowego PDFu do pliku I<FILE> (output file).
 Jeśli nazwą pliku I<FILE> jest "-", lub nie ma opcji B<-o>, to wynikowy
 PDF jest wysyłany na I<STDOUT>.
+
+=item B<-t> I<TITLE>
+
+Tytuł dokumentu umieszczany w nagłówku strony. Domyślnie jest to nazwa
+pliku, który jest argumentem skryptu, lub STDIN.
 
 =back
 

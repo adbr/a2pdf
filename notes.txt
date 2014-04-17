@@ -38,3 +38,5 @@ Todo:
     + refaktoring parse_config
     + testy
 + Dodanie opcji -c file (specyfikacja pliku konfiguracyjnego)
++ opcja ustawiająca tytuł dokumentu w nagłówku strony (gdy STDIN)
+- cytowanie znaków specjalnych latexa w tytule (nazwa pliku lub -t)
