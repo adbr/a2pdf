@@ -318,6 +318,17 @@ pliku, który jest argumentem skryptu, lub STDIN.
 
 =back
 
+=head1 CONFIG
+
+Domyślna konfiguracja jest zawarta w skrypcie w sekcji C<__DATA__>.
+Można ją zmienić używając pliku konfiguracyjnego F<~/.a2pdf.conf> lub
+podanego w opcji -c. Przykładowy plik konfiguracyjny znajduje się w
+F<conf/a2pdf.conf>.
+
+Plik konfiguracyjny używa formatu YAML. Klucz C<docprefix> definiuje
+preambułę i początek dokumentu w LaTeXu, a klucz C<docsuffix> końcówkę
+dokumentu.
+
 =head1 ERRORS
 
 Zwraca status 0 w przypadku powodzenia, a >0 gdy wystąpił błąd. Katalog
@@ -332,6 +343,15 @@ tekstowego C<x.txt> do formatu PDF i zapisanie go w pliku C<x.pdf>:
     $ a2pdf -o x.pdf x.txt
     $ cat x.txt | a2pdf > x.pdf
     $ cat x.txt | a2pdf -o x.pdf
+
+=head1 BUGS
+
+Konwertowany plik tekstowy nie może zawierać napisu:
+
+    \end{verbatim}
+
+Ograniczenie jest spowodowane użyciem LaTeXa i środowiska C<verbatim> -
+wystąpienie takiego napisu powoduje przedwczesne zakończenie kompilacji.
 
 =head1 FILES
 

@@ -14,12 +14,13 @@ Todo:
 -----
 
 + Obczaić moduł do tworzenia plików tymczasowych
-- Jeśli dokument ascii zawiera \end{verbatim} to nie zostanie to
+\ Jeśli dokument ascii zawiera \end{verbatim} to nie zostanie to
   wydrukowane - drukowany tekst nie może zawierać \end{verbatim} i
   \end{document}. Może użyć któregoś z pakietów:
     - listings
     - verbatim
     - fancyverb
+  Opis ograniczenia dodałem do BUGS
 + Błąd podczas kompilacji przez pdflatex -> zawieszenie kompilacji
 + W przypadku błędu kompilacji wyświetlić ścieżkę do a2pdf.log i nie
   kasować katalogu
@@ -28,7 +29,7 @@ Todo:
 + Zmienić wywołanie fatal - format, argumenty (format jak w printf)
 + Makefile (or install script)
 + Opcja verbose (v) - info co i gdzie skrypt robi
-- Doc: opis pliku konfiguracyjnego
++ Doc: opis pliku konfiguracyjnego
 - Doc: zależności - moduły
 - Doc: opis instalacji
 + Nazwe pliku umieszczać w nagłówku
