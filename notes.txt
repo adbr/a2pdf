@@ -16,7 +16,10 @@ Todo:
 + Obczaić moduł do tworzenia plików tymczasowych
 - Jeśli dokument ascii zawiera \end{verbatim} to nie zostanie to
   wydrukowane - drukowany tekst nie może zawierać \end{verbatim} i
-  \end{document}
+  \end{document}. Może użyć któregoś z pakietów:
+    - listings
+    - verbatim
+    - fancyverb
 + Błąd podczas kompilacji przez pdflatex -> zawieszenie kompilacji
 + W przypadku błędu kompilacji wyświetlić ścieżkę do a2pdf.log i nie
   kasować katalogu
