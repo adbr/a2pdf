@@ -113,6 +113,37 @@ sub parse_config {
     }
 }
 
+sub quote_special {
+    my ($str) = @_;
+
+    # Znaki specjalne latexa: $ & % # _ { } ~ ^ \
+    state $spec = {
+        '$' => '\$',
+        '&' => '\&',
+        '%' => '\%',
+        '#' => '\#',
+        '_' => '\_',
+        '{' => '\{',
+        '}' => '\}',
+        '~' => '\textasciitilde{}',
+        '^' => '\textasciicircum{}',
+        '\\' => '\textbackslash{}',
+    };
+
+    my @a = split(//, $str);
+    @a = map {
+        my $ch = $_;
+        if ($spec->{$ch}) {
+            $spec->{$ch};
+        }
+        else {
+            $ch;
+        }
+    } @a;
+
+    return join("", @a);
+}
+
 sub prepare_docprefix {
     info("Preparing latex document");
 
@@ -130,6 +161,7 @@ sub prepare_docprefix {
         $filename = "STDIN";
     }
 
+    $filename = quote_special($filename);
     $Conf->{docprefix} =~ s/\@\@LHEAD\@\@/$filename/;
 }
 
@@ -350,6 +382,9 @@ docprefix: |
     \usepackage[utf8]{inputenc}
     \usepackage[T1]{fontenc}
     \usepackage{lmodern}
+
+    % Znaki specjalne przez polecenia
+    \usepackage{textcomp}
 
     % Ustawienie marginesów:
     \usepackage[margin=1in]{geometry}
