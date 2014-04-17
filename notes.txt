@@ -30,8 +30,8 @@ Todo:
 + Makefile (or install script)
 + Opcja verbose (v) - info co i gdzie skrypt robi
 + Doc: opis pliku konfiguracyjnego
-- Doc: zależności - moduły
-- Doc: opis instalacji
++ Doc: zależności - moduły
++ Doc: opis instalacji
 + Nazwe pliku umieszczać w nagłówku
 + Nr strony umieszczać w nagłówku
 + Kasowanie katalogu roboczego
