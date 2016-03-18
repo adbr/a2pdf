@@ -322,7 +322,7 @@ pliku, który jest argumentem skryptu, lub STDIN.
 Domyślna konfiguracja jest zawarta w skrypcie w sekcji C<__DATA__>.
 Można ją zmienić używając pliku konfiguracyjnego F<~/.a2pdf.conf> lub
 podanego w opcji -c. Przykładowy plik konfiguracyjny znajduje się w
-F<conf/a2pdf.conf>.
+F<examples/a2pdf.conf>.
 
 Plik konfiguracyjny używa formatu YAML. Klucz C<docprefix> definiuje
 preambułę i początek dokumentu w LaTeXu, a klucz C<docsuffix> końcówkę
