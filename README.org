@@ -1,3 +1,11 @@
+Skrypt a2pdf jest filtrem konwertującym tekst (plain text) do formatu
+PDF. Potrafi konwertować tekst kodowany w UTF-8.
+
+Do konwersji jest używany pdflatex -- tworzony jest tymczasowy
+dokument LaTeXa z konwertowanym tekstem umieszczonym w środowisku
+verbatim, dokument jest kompilowany przez pdflatex i zwracany jest
+wynikowy PDF.
+
 * Zależności
 
 Skrypt używa następujących modułów perla:
@@ -11,7 +19,7 @@ Skrypt używa następujących modułów perla:
 : use Try::Tiny
 : use YAML
 
-Jeśli brakuje jakiegoś modułu to należy go doinstalować, np.
+Jeśli brakuje jakiegoś modułu to należy go zainstalować, np.
 poleceniem:
 
 : cpanm MODULE
