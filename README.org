@@ -10,14 +10,14 @@ wynikowy PDF.
 
 Skrypt używa następujących modułów perla:
 
-: use Cwd
-: use File::Basename
-: use File::Copy
-: use File::Slurp
-: use File::Temp
-: use Getopt::Long
-: use Try::Tiny
-: use YAML
+: Cwd
+: File::Basename
+: File::Copy
+: File::Slurp
+: File::Temp
+: Getopt::Long
+: Try::Tiny
+: YAML
 
 Jeśli brakuje jakiegoś modułu to należy go zainstalować, np.
 poleceniem:
