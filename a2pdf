@@ -95,7 +95,6 @@ sub read_config {
 }
 
 sub parse_config {
-
     # Konfiguracja wbudowana
     my $cnf = read_config(\*DATA);
     %$Conf = ( %$Conf, %$cnf );

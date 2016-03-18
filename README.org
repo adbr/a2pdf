@@ -16,6 +16,8 @@ poleceniem:
 
 : cpanm MODULE
 
+Skrypt używa LaTeXa.
+
 * Instalacja
 
 Zainstalować zależności jeśli potrzeba.
