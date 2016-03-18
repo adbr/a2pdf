@@ -1,37 +1,34 @@
-ZALEŻNOŚCI
-==========
+* Zależności
 
-Skrypt używa następujących modułów:
+Skrypt używa następujących modułów perla:
 
-    use Cwd
-    use File::Basename
-    use File::Copy
-    use File::Slurp
-    use File::Temp
-    use Getopt::Long
-    use Try::Tiny
-    use YAML
+: use Cwd
+: use File::Basename
+: use File::Copy
+: use File::Slurp
+: use File::Temp
+: use Getopt::Long
+: use Try::Tiny
+: use YAML
 
-Jeśli brakuje jakiegoś modułu to należy go zainstalować, np poleceniem:
-
-    cpanm MODULE
-
-INSTALACJA
-==========
-
-Zainstalować brakujące moduły.
-
-Skopiować skrypt a2pdf do odpowiedniego katalogu bin. Można użyć skryptu
-install, który instaluje a2pdf w ~/bin. Katalog docelowy można zmienić
-edytując skrypt install ($BINDIR).
-
-Jeśli trzeba zmienić domyślną konfigurację to skopiować plik
-conf/a2pdf.conf do ~/.a2pdf.conf i wyedytować go.
-
-DOKUMENTACJA
-============
-
-Dokumentacja w postaci POD jest zawarta w skrypcie - można ją wyświetlić
+Jeśli brakuje jakiegoś modułu to należy go doinstalować, np.
 poleceniem:
 
-    perldoc a2pdf
+: cpanm MODULE
+
+* Instalacja
+
+Zainstalować zależności jeśli potrzeba.
+
+Skopiować skrypt a2pdf do odpowiedniego katalogu bin. Można użyć
+skryptu install, który instaluje a2pdf w katalogu ~/bin.
+
+Jeśli trzeba zmienić domyślną konfigurację to należy skopiować plik
+examples/a2pdf.conf do ~/.a2pdf.conf i zmienić go.
+
+* Dokumentacja
+
+Dokumentacja w postaci POD jest zawarta w skrypcie - można ją
+wyświetlić poleceniem:
+
+: perldoc a2pdf
