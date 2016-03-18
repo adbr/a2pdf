@@ -394,6 +394,7 @@ Adam Bryt <adam.bryt at gmx dot com>, 2014-04-05
 
 __DATA__
 
+# -*- yaml -*-
 ---
 docprefix: |
     \documentclass[a4paper,11pt]{article}
